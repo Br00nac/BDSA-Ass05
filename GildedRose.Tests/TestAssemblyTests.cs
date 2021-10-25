@@ -7,7 +7,7 @@ namespace GildedRose.Tests
         [Fact]
         public void TestTheTruth()
         {
-            Assert.True(true);
+            Program.Main(new string[1]);
         }
     }
 }
