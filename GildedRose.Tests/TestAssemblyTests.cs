@@ -5,7 +5,7 @@ namespace GildedRose.Tests
     public class TestAssemblyTests
     {
         [Fact]
-        public void TestTheTruth()
+        public void RunMain()
         {
             Program.Main(new string[1]);
         }
