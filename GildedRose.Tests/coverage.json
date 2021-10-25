@@ -1,5 +1,6 @@
 {
   "GildedRose.dll": {
+
     "C:\\Users\\Babet\\OneDrive\\Documents\\GitHub\\BDSA-Ass05\\GildedRose\\Program.cs": {
       "GildedRose.Program": {
         "System.Void GildedRose.Program::Main(System.String[])": {
@@ -88,6 +89,7 @@
         },
         "System.Void GildedRose.Program::UpdateQuality()": {
           "Lines": {
+
             "62": 0,
             "63": 0,
             "64": 0,

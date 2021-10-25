@@ -3,12 +3,11 @@ using System.Collections.Generic;
 
 namespace GildedRose
 {
-    class Program
+    public class Program
     {
         IList<Item> Items;
         public static readonly int MONTH = 31;
-
-        static void Main(string[] args)
+        public static void Main(string[] args)
         {
             System.Console.WriteLine("OMGHAI!");
 
