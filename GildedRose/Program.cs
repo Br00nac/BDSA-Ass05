@@ -6,11 +6,11 @@ namespace GildedRose
     class Program
     {
         IList<Item> Items;
+        public static readonly int MONTH = 31;
 
         static void Main(string[] args)
         {
             System.Console.WriteLine("OMGHAI!");
-            const MONTH = 31;
 
             var app = new Program()
             {
@@ -45,7 +45,7 @@ namespace GildedRose
                 }
             };
 
-                for (var i = 0; i < MONTH; i++)
+                for (var i = 0; i < Program.MONTH; i++)
                 {
                     Console.WriteLine("-------- day " + i + " --------");
                     Console.WriteLine("name, sellIn, quality");
@@ -54,8 +54,8 @@ namespace GildedRose
                     {
                         Console.WriteLine(app.Items[j].Name + ", " + app.Items[j].SellIn + ", " + app.Items[j].Quality);
                         
-                        app.UpdateQuality(Items[j]);
-                        app.UpdateSellIn(Items[j]);
+                        app.UpdateQuality(app.Items[j]);
+                        app.UpdateSellIn(app.Items[j]);
                     }
 
                     Console.WriteLine("");
@@ -76,12 +76,12 @@ namespace GildedRose
                     break;
 
                     case "Backstage passes to a TAFKAL80ETC concert":
-                        if(i.SellIn < 11) => i.Quality++;
-                        if(i.SellIn < 6) => i.Quality++;
+                        if(i.SellIn < 11) i.Quality++;
+                        if(i.SellIn < 6) i.Quality++;
                         
                         i.Quality++;
 
-                        if(i.SellIn > 0) => i.Quality = 0;
+                        if(i.SellIn > 0) i.Quality = 0;
                     break;
 
                     case "Sulfuras, Hand of Ragnaros":
@@ -89,13 +89,13 @@ namespace GildedRose
                     break;
 
                     default:
-                        if (i.SellIn < 0) => i.Quality--;
+                        if (i.SellIn < 0) i.Quality--;
                         i.Quality--;
+                    break;
                 }
             
-            if (i.Quality < 0) => i.Quality == 0;
-            if (i.Quality > 50) => i.Quality == 50;
-               
+            if (i.Quality < 0) i.Quality = 0;
+            if (i.Quality > 50) i.Quality = 50;
         }
 
     }
