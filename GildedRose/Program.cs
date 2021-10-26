@@ -68,10 +68,16 @@ namespace GildedRose
 
         public void UpdateQuality(Item i)
         {
+            //1 for no, 2 for yes
+            var AmIConjured = 1;
+            if(i.Name.StartsWith("Conjured")) AmIConjured = 2;
+
                 switch (i.Name)
                 {
+
                     case "Aged Brie":
                         i.Quality++;
+    
                     break;
 
                     case "Backstage passes to a TAFKAL80ETC concert":
@@ -80,16 +86,16 @@ namespace GildedRose
                         
                         i.Quality++;
 
-                        if(i.SellIn > 0) i.Quality = 0;
+                        if(i.SellIn < 0) i.Quality = 0;
                     break;
 
                     case "Sulfuras, Hand of Ragnaros":
-                        return;
+        
                     break;
 
                     default:
-                        if (i.SellIn < 0) i.Quality--;
-                        i.Quality--;
+                        if (i.SellIn < 0) i.Quality -= AmIConjured;
+                        i.Quality -= AmIConjured;
                     break;
                 }
             
