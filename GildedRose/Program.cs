@@ -53,8 +53,8 @@ namespace GildedRose
                     {
                         Console.WriteLine(app.Items[j].Name + ", " + app.Items[j].SellIn + ", " + app.Items[j].Quality);
                         
-                        app.UpdateQuality(app.Items[j]);
-                        app.UpdateSellIn(app.Items[j]);
+                        UpdateQuality(app.Items[j]);
+                        UpdateSellIn(app.Items[j]);
                     }
 
                     Console.WriteLine("");
@@ -62,11 +62,11 @@ namespace GildedRose
 
         }
 
-        public void UpdateSellIn(Item i){
+        public static void UpdateSellIn(Item i){
             i.SellIn--;
         }
 
-        public void UpdateQuality(Item i)
+        public static void UpdateQuality(Item i)
         {
                 switch (i.Name)
                 {
@@ -80,7 +80,7 @@ namespace GildedRose
                         
                         i.Quality++;
 
-                        if(i.SellIn > 0) i.Quality = 0;
+                        if(i.SellIn < 0) i.Quality = 0;
                     break;
 
                     case "Sulfuras, Hand of Ragnaros":
