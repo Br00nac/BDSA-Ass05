@@ -92,11 +92,67 @@ namespace GildedRose.Tests
         public void UpdateSellIn_arbitraryItems(string name, int quality)
         {
             Item i = new Item{Name = name, Quality = quality, SellIn = 10};
-            Program.UpdateSellin(i);
+            Program.UpdateSellIn(i);
             Assert.Equal(9, i.SellIn);
         }
 
+        [Fact]
+        public void UpdateQuality_Conjured_SellInPositive()
+        {
+            var i = new Item { Name = "Conjured Mana Cake", SellIn = 1, Quality = 6 };
+            Program.UpdateQuality(i);
+            Assert.Equal(4, i.Quality);
+        }
+        
+        [Fact]
+        public void UpdateQuality_Conjured_SellINegative()
+        {
+            var i = new Item { Name = "Conjured Mana Cake", SellIn = -1, Quality = 6 };
+            Program.UpdateQuality(i);
+            Assert.Equal(2, i.Quality);
+        }
 
+        [Theory]
+        [InlineData("+5 Dexterity Vest", 10, 20)]
+        [InlineData("Aged Brie", 2, 0)]
+        [InlineData("Elixir of the Mongoose", 5, 7)]
+        [InlineData("Sulfuras, Hand of Ragnaros", 0, 80)]
+        [InlineData("Sulfuras, Hand of Ragnaros", -1, 80)]
+        [InlineData("Backstage passes to a TAFKAL80ETC concert", 15, 20)]
+        [InlineData("Backstage passes to a TAFKAL80ETC concert", 10, 49)]
+        [InlineData("Backstage passes to a TAFKAL80ETC concert", 5, 49)]
+        [InlineData("Conjured Mana Cake", 3, 6 )]
+        public void DefaultListTest(string name, int sellIn, int quality)
+        {
+            var items = Program.defaultList();
+            Assert.Contains(items, i =>
+                i.Name == name &&
+                i.SellIn == sellIn &&
+                i.Quality == quality
+            );
+        }
+
+        [Fact]
+        public void UpdateQuality_ItemQualityTooHigh()
+        {
+            Item i = new Item{Name = "Aged Brie", Quality = 54, SellIn = 10};
+            Program.UpdateQuality(i);
+            Assert.Equal(50, i.Quality);   
+        }
+        [Fact]
+        public void UpdateQuality_ItemQualityTooLow()
+        {
+            Item i = new Item{Name = "Normal Item", Quality = -40 , SellIn = 0};
+            Program.UpdateQuality(i);
+            Assert.Equal(0, i.Quality);   
+        }
+        [Fact]
+        public void Item_ToString()
+        {
+            Item i = new Item{Name = "Normal Item", Quality = -40 , SellIn = 0};
+            var expected = "Normal Item, 0, -40";
+            Assert.Equal(expected, i.ToString());   
+        }
 
     }
 }
