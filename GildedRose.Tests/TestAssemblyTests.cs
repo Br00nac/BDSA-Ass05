@@ -72,5 +72,20 @@ namespace GildedRose.Tests
             Program.UpdateQuality(i);
             Assert.Equal(13, i.Quality);
         }
+
+        [Theory]
+        [InlineData(1)]
+        [InlineData(0)]
+        [InlineData(-1)]
+        public void UpdateQuality_LegendaryItem(int sellIn)
+        {
+            Item i = new Item{Name = "Sulfuras, Hand of Ragnaros", Quality = 80, SellIn = sellIn};
+            Program.UpdateQuality(i);
+            Assert.Equal(80, i.Quality);
+        }
+
+
+
+
     }
 }
