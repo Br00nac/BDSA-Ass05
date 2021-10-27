@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 
 namespace GildedRose
@@ -55,7 +55,7 @@ namespace GildedRose
 
                 for (var j = 0; j < Items.Count; j++)
                 {
-                    Console.WriteLine(Items[j].Name + ", " + Items[j].SellIn + ", " + Items[j].Quality);
+                    Console.WriteLine(Items[j].ToString());
                     
                     UpdateQuality(Items[j]);
                     UpdateSellIn(Items[j]);
@@ -71,8 +71,11 @@ namespace GildedRose
 
         public static void UpdateQuality(Item i)
         {
-            if(i.Name.StartsWith("Conjured")){ i.Quality -= 2; return;}
-
+            if(i.Name.StartsWith("Conjured")){
+                if(i.SellIn < 0) i.Quality -= 2;
+                i.Quality -= 2;
+                return;
+            }
                 switch (i.Name)
                 {
                     case "Aged Brie":
@@ -110,6 +113,12 @@ namespace GildedRose
         public int SellIn { get; set; }
 
         public int Quality { get; set; }
+
+        public string ToString()
+        {
+            var mystring = Name + ", " + SellIn + ", " + Quality;
+            return mystring;
+        }
     }
 
 }

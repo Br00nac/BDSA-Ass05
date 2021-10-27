@@ -103,15 +103,15 @@ namespace GildedRose.Tests
             Program.UpdateQuality(i);
             Assert.Equal(4, i.Quality);
         }
-        /*
+        
         [Fact]
         public void UpdateQuality_Conjured_SellINegative()
         {
             var i = new Item { Name = "Conjured Mana Cake", SellIn = -1, Quality = 6 };
             Program.UpdateQuality(i);
             Assert.Equal(2, i.Quality);
-        }*/
-        
+        }
+
         [Theory]
         [InlineData("+5 Dexterity Vest", 10, 20)]
         [InlineData("Aged Brie", 2, 0)]
@@ -131,5 +131,28 @@ namespace GildedRose.Tests
                 i.Quality == quality
             );
         }
+
+        [Fact]
+        public void UpdateQuality_ItemQualityTooHigh()
+        {
+            Item i = new Item{Name = "Aged Brie", Quality = 54, SellIn = 10};
+            Program.UpdateQuality(i);
+            Assert.Equal(50, i.Quality);   
+        }
+        [Fact]
+        public void UpdateQuality_ItemQualityTooLow()
+        {
+            Item i = new Item{Name = "Normal Item", Quality = -40 , SellIn = 0};
+            Program.UpdateQuality(i);
+            Assert.Equal(0, i.Quality);   
+        }
+        [Fact]
+        public void Item_ToString()
+        {
+            Item i = new Item{Name = "Normal Item", Quality = -40 , SellIn = 0};
+            var expected = "Normal Item, 0, -40";
+            Assert.Equal(expected, i.ToString());   
+        }
+
     }
 }
