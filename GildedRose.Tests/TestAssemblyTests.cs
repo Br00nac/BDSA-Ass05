@@ -96,6 +96,53 @@ namespace GildedRose.Tests
             Assert.Equal(9, i.SellIn);
         }
 
+        [Fact]
+        public void UpdateQuality_Conjured_SellInPositive()
+        {
+            var i = new Item { Name = "Conjured Mana Cake", SellIn = 1, Quality = 6 };
+            Program.UpdateQuality(i);
+            Assert.Equal(4, i.Quality);
+        }
+        [Fact]
+        public void UpdateQuality_Conjured_SellINegative()
+        {
+            var i = new Item { Name = "Conjured Mana Cake", SellIn = -1, Quality = 6 };
+            Program.UpdateQuality(i);
+            Assert.Equal(2, i.Quality);
+        }
+        [Theory]
+        [InlineData("+5 Dexterity Vest", 10, 20)]
+        [InlineData("Aged Brie", 2, 0)]
+        [InlineData("Elixir of the Mongoose", 5, 7)]
+        [InlineData("Sulfuras, Hand of Ragnaros", 0, 80)]
+        [InlineData("Sulfuras, Hand of Ragnaros", -1, 80)]
+        [InlineData("Backstage passes to a TAFKAL80ETC concert", 15, 20)]
+        [InlineData("Backstage passes to a TAFKAL80ETC concert", 10, 49)]
+        [InlineData("Backstage passes to a TAFKAL80ETC concert", 5, 49)]
+        [InlineData("Conjured Mana Cake", 3, 6 )]
+        public void DefaultListTest(string name, int sellin, int quality)
+        {
+            var items = defaultList();
+            Assert.Contains(items, i =>
+                i.Name == name &&
+                i.SellIn == sellIn &&
+                i.Quality == quality
+            );
+        }
+
+        [Theory]
+        [InlineData(new Item{Name = "Conjured Mana Cake", SellIn = -1, Quality = 6 })]
+        public void DefaultListTest2(Item i)
+        {
+            var items = defaultList();
+            Assert.Contains(items, i =>
+                i.Name == name &&
+                i.SellIn == sellIn &&
+                i.Quality == quality
+            );
+        }
+
+
 
 
     }
