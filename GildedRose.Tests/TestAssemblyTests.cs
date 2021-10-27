@@ -103,13 +103,15 @@ namespace GildedRose.Tests
             Program.UpdateQuality(i);
             Assert.Equal(4, i.Quality);
         }
+        /*
         [Fact]
         public void UpdateQuality_Conjured_SellINegative()
         {
             var i = new Item { Name = "Conjured Mana Cake", SellIn = -1, Quality = 6 };
             Program.UpdateQuality(i);
             Assert.Equal(2, i.Quality);
-        }
+        }*/
+        
         [Theory]
         [InlineData("+5 Dexterity Vest", 10, 20)]
         [InlineData("Aged Brie", 2, 0)]
