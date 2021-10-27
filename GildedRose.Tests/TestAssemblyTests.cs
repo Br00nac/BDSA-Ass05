@@ -124,20 +124,8 @@ namespace GildedRose.Tests
             );
         }
 
-        // [Theory]
-        // [InlineData(new Item{Name = "Conjured Mana Cake", SellIn = -1, Quality = 6 })]
-        // public void DefaultListTest2(Item i)
-        // {
-        //     var items = defaultList();
-        //     Assert.Contains(items, i =>
-        //         i.Name == name &&
-        //         i.SellIn == sellIn &&
-        //         i.Quality == quality
-        //     );
-        // }
 
-
-
+        
 
     }
 }
