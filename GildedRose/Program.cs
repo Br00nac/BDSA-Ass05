@@ -5,68 +5,75 @@ namespace GildedRose
 {
     public class Program
     {
-        IList<Item> Items;
         public static readonly int MONTH = 31;
+        private IList<Item> Items{ get; set; }
+
         public static void Main(string[] args)
         {
             System.Console.WriteLine("OMGHAI!");
-
-            var app = new Program()
+            var app = new Program();
+            var l = app.Items;
+            l = defaultList();
+            showAllValuesForAMonth(l);
+        }
+        public static IList<Item> defaultList()
+        {
+            var list = new List<Item>
             {
-                Items = new List<Item>
-                {
-                    new Item { Name = "+5 Dexterity Vest", SellIn = 10, Quality = 20 },
-                    new Item { Name = "Aged Brie", SellIn = 2, Quality = 0 },
-                    new Item { Name = "Elixir of the Mongoose", SellIn = 5, Quality = 7 },
-                    new Item { Name = "Sulfuras, Hand of Ragnaros", SellIn = 0, Quality = 80 },
-                    new Item { Name = "Sulfuras, Hand of Ragnaros", SellIn = -1, Quality = 80 },
+                new Item { Name = "+5 Dexterity Vest", SellIn = 10, Quality = 20 },
+                new Item { Name = "Aged Brie", SellIn = 2, Quality = 0 },
+                new Item { Name = "Elixir of the Mongoose", SellIn = 5, Quality = 7 },
+                new Item { Name = "Sulfuras, Hand of Ragnaros", SellIn = 0, Quality = 80 },
+                new Item { Name = "Sulfuras, Hand of Ragnaros", SellIn = -1, Quality = 80 },
 
-                    new Item
-                    {
-                        Name = "Backstage passes to a TAFKAL80ETC concert",
-                        SellIn = 15,
-                        Quality = 20
-                    },
-                    new Item
-                    {
-                        Name = "Backstage passes to a TAFKAL80ETC concert",
-                        SellIn = 10,
-                        Quality = 49
-                    },
-                    new Item
-                    {
-                        Name = "Backstage passes to a TAFKAL80ETC concert",
-                        SellIn = 5,
-                        Quality = 49
-                    },
-                    // this conjured item does not work properly yet
-                    new Item { Name = "Conjured Mana Cake", SellIn = 3, Quality = 6 }
-                }
+                new Item
+                {
+                    Name = "Backstage passes to a TAFKAL80ETC concert",
+                    SellIn = 15,
+                    Quality = 20
+                },
+                new Item
+                {
+                    Name = "Backstage passes to a TAFKAL80ETC concert",
+                    SellIn = 10,
+                    Quality = 49
+                },
+                new Item
+                {
+                    Name = "Backstage passes to a TAFKAL80ETC concert",
+                    SellIn = 5,
+                    Quality = 49
+                },
+                // this conjured item does not work properly yet
+                new Item { Name = "Conjured Mana Cake", SellIn = 3, Quality = 6 }
             };
-
-                for (var i = 0; i < Program.MONTH; i++)
-                {
-                    Console.WriteLine("-------- day " + i + " --------");
-                    Console.WriteLine("name, sellIn, quality");
-
-                    for (var j = 0; j < app.Items.Count; j++)
-                    {
-                        Console.WriteLine(app.Items[j].Name + ", " + app.Items[j].SellIn + ", " + app.Items[j].Quality);
-                        
-                        app.UpdateQuality(app.Items[j]);
-                        app.UpdateSellIn(app.Items[j]);
-                    }
-
-                    Console.WriteLine("");
-                }
-
+            return list;
         }
 
-        public void UpdateSellIn(Item i){
+        public static void showAllValuesForAMonth(IList<Item> Items)
+        {
+            for (var i = 0; i < Program.MONTH; i++)
+            {
+                Console.WriteLine("-------- day " + i + " --------");
+                Console.WriteLine("name, sellIn, quality");
+
+                for (var j = 0; j < Items.Count; j++)
+                {
+                    Console.WriteLine(Items[j].Name + ", " + Items[j].SellIn + ", " + Items[j].Quality);
+                    
+                    UpdateQuality(Items[j]);
+                    UpdateSellIn(Items[j]);
+                }
+                
+                Console.WriteLine("");
+            }
+        }
+
+        private static void UpdateSellIn(Item i){
             i.SellIn--;
         }
 
-        public void UpdateQuality(Item i)
+        private static void UpdateQuality(Item i)
         {
             //1 for no, 2 for yes
             var AmIConjured = 1;
