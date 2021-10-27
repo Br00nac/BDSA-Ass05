@@ -72,5 +72,31 @@ namespace GildedRose.Tests
             Program.UpdateQuality(i);
             Assert.Equal(13, i.Quality);
         }
+
+        [Theory]
+        [InlineData(1)]
+        [InlineData(0)]
+        [InlineData(-1)]
+        public void UpdateQuality_LegendaryItem(int sellIn)
+        {
+            Item i = new Item{Name = "Sulfuras, Hand of Ragnaros", Quality = 80, SellIn = sellIn};
+            Program.UpdateQuality(i);
+            Assert.Equal(80, i.Quality);
+        }
+
+        [Theory]
+        [InlineData("Backstage passes to a TAFKAL80ETC concert", 10)]
+        [InlineData("Sulfuras, Hand of Ragnaros", 80)]
+        [InlineData("Aged Brie",5)]
+        [InlineData("Default item",5)]
+        public void UpdateSellIn_arbitraryItems(string name, int quality)
+        {
+            Item i = new Item{Name = name, Quality = quality, SellIn = 10};
+            Program.UpdateSellin(i);
+            Assert.Equal(9, i.SellIn);
+        }
+
+
+
     }
 }
