@@ -6,15 +6,11 @@ namespace GildedRose
     public class Program
     {
         public static readonly int MONTH = 31;
-        private IList<Item> Items{ get; set; }
-
         public static void Main(string[] args)
         {
             System.Console.WriteLine("OMGHAI!");
-            var app = new Program();
-            var l = app.Items;
-            l = defaultList();
-            showAllValuesForAMonth(l);
+            var l = defaultList();
+            showAllItemValuesForAMonth(l);
         }
         public static IList<Item> defaultList()
         {
@@ -50,7 +46,7 @@ namespace GildedRose
             return list;
         }
 
-        public static void showAllValuesForAMonth(IList<Item> Items)
+        public static void showAllItemValuesForAMonth(IList<Item> Items)
         {
             for (var i = 0; i < Program.MONTH; i++)
             {
@@ -75,13 +71,10 @@ namespace GildedRose
 
         private static void UpdateQuality(Item i)
         {
-            //1 for no, 2 for yes
-            var AmIConjured = 1;
-            if(i.Name.StartsWith("Conjured")) AmIConjured = 2;
+            if(i.Name.StartsWith("Conjured")){ i.Quality = i.Quality -2; return; }
 
                 switch (i.Name)
                 {
-
                     case "Aged Brie":
                         i.Quality++;
     
@@ -101,11 +94,10 @@ namespace GildedRose
                     break;
 
                     default:
-                        if (i.SellIn < 0) i.Quality -= AmIConjured;
-                        i.Quality -= AmIConjured;
+                        if (i.SellIn < 0) i.Quality--;
+                        i.Quality--;
                     break;
                 }
-            
             if (i.Quality < 0) i.Quality = 0;
             if (i.Quality > 50) i.Quality = 50;
         }
