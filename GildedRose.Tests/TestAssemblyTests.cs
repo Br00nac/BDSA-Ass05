@@ -92,7 +92,7 @@ namespace GildedRose.Tests
         public void UpdateSellIn_arbitraryItems(string name, int quality)
         {
             Item i = new Item{Name = name, Quality = quality, SellIn = 10};
-            Program.UpdateSellin(i);
+            Program.UpdateSellIn(i);
             Assert.Equal(9, i.SellIn);
         }
 
@@ -120,30 +120,14 @@ namespace GildedRose.Tests
         [InlineData("Backstage passes to a TAFKAL80ETC concert", 10, 49)]
         [InlineData("Backstage passes to a TAFKAL80ETC concert", 5, 49)]
         [InlineData("Conjured Mana Cake", 3, 6 )]
-        public void DefaultListTest(string name, int sellin, int quality)
+        public void DefaultListTest(string name, int sellIn, int quality)
         {
-            var items = defaultList();
+            var items = Program.defaultList();
             Assert.Contains(items, i =>
                 i.Name == name &&
                 i.SellIn == sellIn &&
                 i.Quality == quality
             );
         }
-
-        [Theory]
-        [InlineData(new Item{Name = "Conjured Mana Cake", SellIn = -1, Quality = 6 })]
-        public void DefaultListTest2(Item i)
-        {
-            var items = defaultList();
-            Assert.Contains(items, i =>
-                i.Name == name &&
-                i.SellIn == sellIn &&
-                i.Quality == quality
-            );
-        }
-
-
-
-
     }
 }

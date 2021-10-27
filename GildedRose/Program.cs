@@ -65,11 +65,11 @@ namespace GildedRose
             }
         }
 
-        private static void UpdateSellIn(Item i){
+        public static void UpdateSellIn(Item i){
             i.SellIn--;
         }
 
-        private static void UpdateQuality(Item i)
+        public static void UpdateQuality(Item i)
         {
             if(i.Name.StartsWith("Conjured")){ i.Quality -= 2; return;}
 
@@ -90,9 +90,8 @@ namespace GildedRose
                     break;
 
                     case "Sulfuras, Hand of Ragnaros":
-        
-                    break;
-
+                    return;
+                    
                     default:
                         if (i.SellIn < 0) i.Quality--;
                         i.Quality--;
