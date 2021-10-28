@@ -16,11 +16,11 @@ namespace GildedRose
         {
             var list = new List<Item>
             {
-                new NormalItem { Name = "+5 Dexterity Vest", SellIn = 10, Quality = 20 },
+                new Item { Name = "+5 Dexterity Vest", SellIn = 10, Quality = 20 },
                 new AgedItem { Name = "Aged Brie", SellIn = 2, Quality = 0 },
-                new NormalItem { Name = "Elixir of the Mongoose", SellIn = 5, Quality = 7 },
-                new LegendaryItem { Name = "Sulfuras, Hand of Ragnaros", SellIn = 0},
-                new LegendaryItem { Name = "Sulfuras, Hand of Ragnaros", SellIn = -1},
+                new Item { Name = "Elixir of the Mongoose", SellIn = 5, Quality = 7 },
+                new LegendaryItem { Name = "Sulfuras, Hand of Ragnaros", SellIn = 0, Quality = 80},
+                new LegendaryItem { Name = "Sulfuras, Hand of Ragnaros", SellIn = -1, Quality = 80},
 
                 new BPItem
                 {
@@ -57,7 +57,7 @@ namespace GildedRose
                 {
                     Console.WriteLine(Items[j].Name + ", " + Items[j].SellIn + ", " + Items[j].Quality);
                     
-                    Items[j].UpdateQuality();
+                    UpdateQuality(Items[j]);
                     UpdateSellIn(Items[j]);
                 }
                 
@@ -69,51 +69,17 @@ namespace GildedRose
             i.SellIn--;
         }
 
-    //     public static void UpdateQuality(Item i)
-    //     {
-    //         if(i.Name.StartsWith("Conjured")){ i.Quality = i.Quality -2; return; }
+        public static void UpdateQuality(Item i)
+        {
+            i.UpdateQuality();   
+            if(i.GetType().Name == "LegendaryItem") return;
+            if (i.Quality < 0) i.Quality = 0;
+            if (i.Quality > 50) i.Quality = 50;
+        }
 
-    //             switch (i.Name)
-    //             {
-    //                 case "Aged Brie":
-    //                     i.Quality++;
-    
-    //                 break;
-
-    //                 case "Backstage passes to a TAFKAL80ETC concert":
-    //                     if(i.SellIn < 11) i.Quality++;
-    //                     if(i.SellIn < 6) i.Quality++;
-                        
-    //                     i.Quality++;
-
-    //                     if(i.SellIn < 0) i.Quality = 0;
-    //                 break;
-
-    //                 case "Sulfuras, Hand of Ragnaros":
         
-    //                 break;
 
-    //                 default:
-    //                     if (i.SellIn < 0) i.Quality--;
-    //                     i.Quality--;
-    //                 break;
-    //             }
-    //         if (i.Quality < 0) i.Quality = 0;
-    //         if (i.Quality > 50) i.Quality = 50;
-    //     }
-
-    // }
-
-    public abstract class Item
-    {
-        public string Name { get; set; }
-
-        public int SellIn { get; set; }
-
-        public int Quality { get; set; }
-
-        public abstract void UpdateQuality();
-    }
+    
 
 }
 }

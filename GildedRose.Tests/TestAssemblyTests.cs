@@ -1,4 +1,5 @@
 ﻿using Xunit;
+using System.Collections.Generic;
 
 namespace GildedRose.Tests
 {
@@ -6,15 +7,11 @@ namespace GildedRose.Tests
     {
          Program app = new Program();
 
-        [Fact]
-        public void RunOtherMain()
-        {
-            Program.Main(new string[1]);
-        }
+        
         [Fact]
         public void UpdateQuality_NormalItems_SellInIsNegative()
         {
-            NormalItem i = new NormalItem{Name = "Normal item", Quality = 20, SellIn = -1};
+            Item i = new Item{Name = "Normal item", Quality = 20, SellIn = -1};
             i.UpdateQuality();
             Assert.Equal(18, i.Quality);
         }
@@ -42,6 +39,8 @@ namespace GildedRose.Tests
             i.UpdateQuality();
             Assert.Equal(0, i.Quality);
         }
+
+    
         
         [Fact]
         public void UpdateQuality_BackstagePass_SellIn_11()
@@ -73,7 +72,7 @@ namespace GildedRose.Tests
         [InlineData(-1)]
         public void UpdateQuality_LegendaryItem(int sellIn)
         {
-            LegendaryItem i = new LegendaryItem{Name = "Sulfuras, Hand of Ragnaros", SellIn = sellIn};
+            LegendaryItem i = new LegendaryItem{Name = "Sulfuras, Hand of Ragnaros", SellIn = sellIn, Quality = 80};
             i.UpdateQuality();
             Assert.Equal(80, i.Quality);
         }
@@ -85,7 +84,7 @@ namespace GildedRose.Tests
         [InlineData("Default item",5)]
         public void UpdateSellIn_arbitraryItems(string name, int quality)
         {
-            NormalItem i = new NormalItem{Name = name, Quality = quality, SellIn = 10};
+            var i = new Item{Name = name, Quality = quality, SellIn = 10};
             Program.UpdateSellIn(i);
             Assert.Equal(9, i.SellIn);
         }
@@ -124,20 +123,26 @@ namespace GildedRose.Tests
             );
         }
 
-        // [Theory]
-        // [InlineData(new Item{Name = "Conjured Mana Cake", SellIn = -1, Quality = 6 })]
-        // public void DefaultListTest2(Item i)
-        // {
-        //     var items = defaultList();
-        //     Assert.Contains(items, i =>
-        //         i.Name == name &&
-        //         i.SellIn == sellIn &&
-        //         i.Quality == quality
-        //     );
-        // }
+        [Fact]
+        
+        public void ItemQualityLimitTest(){
 
+            var i = new Item{Name = "Restrained enraged goblin", Quality = -300, SellIn = 0};
+            var j = new Item{Name = "Special goblin restraining rope", Quality = 300, SellIn = 0};
+            Program.UpdateQuality(i);
+            Program.UpdateQuality(j);
+            Assert.Equal(0, i.Quality);
+            Assert.Equal(50, j.Quality);
+        }
 
+        [Fact]
+        
+        public void ShowAllItemsRuns(){
 
-
-    }
+            Program.showAllItemValuesForAMonth(Program.defaultList());
+            
+            }
+            
+            }
 }
+
