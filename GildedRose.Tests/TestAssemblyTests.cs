@@ -1,27 +1,18 @@
 ﻿using Xunit;
+using System.Collections.Generic;
 
 namespace GildedRose.Tests
 {
     public class TestAssemblyTests
     {
-        //[Fact]
-        //public void RunMain()
-        //{
-        //    Program.Main(new string[1]);
-        //}
+         Program app = new Program();
 
-        [Fact]
-        public void UpdateQuality_NormalItems_SellInIsPositive()
-        {
-            Item i = new Item{Name = "Normal item", Quality = 20, SellIn = 5};
-            Program.UpdateQuality(i);
-            Assert.Equal(19, i.Quality);
-        }
+        
         [Fact]
         public void UpdateQuality_NormalItems_SellInIsNegative()
         {
             Item i = new Item{Name = "Normal item", Quality = 20, SellIn = -1};
-            Program.UpdateQuality(i);
+            i.UpdateQuality();
             Assert.Equal(18, i.Quality);
         }
 
@@ -33,8 +24,8 @@ namespace GildedRose.Tests
         [InlineData("Aged Brie",-100, 20)]
         public void UpdateQuality_AgedBrie(string name, int sellIn, int quality)
         {
-            Item i = new Item{Name = name, SellIn = sellIn, Quality = quality};
-            Program.UpdateQuality(i);
+            AgedItem i = new AgedItem{Name = name, SellIn = sellIn, Quality = quality};
+            i.UpdateQuality();
             Assert.Equal(21, i.Quality);
         }
 
@@ -44,32 +35,34 @@ namespace GildedRose.Tests
         [InlineData("Backstage passes to a TAFKAL80ETC concert", -11, 0)]
         public void UpdateQuality_BackstagePass_SellInNegative(string name, int sellIn, int quality)
         {
-            Item i = new Item{Name = name, SellIn = sellIn, Quality = quality};
-            Program.UpdateQuality(i);
+            BPItem i = new BPItem{Name = name, SellIn = sellIn, Quality = quality};
+            i.UpdateQuality();
             Assert.Equal(0, i.Quality);
         }
+
+    
         
         [Fact]
         public void UpdateQuality_BackstagePass_SellIn_11()
         {
-            Item i = new Item{Name = "Backstage passes to a TAFKAL80ETC concert", Quality = 10, SellIn = 11};
-            Program.UpdateQuality(i);
+            BPItem i = new BPItem{Name = "Backstage passes to a TAFKAL80ETC concert", Quality = 10, SellIn = 11};
+            i.UpdateQuality();
             Assert.Equal(11, i.Quality);
         }
         
         [Fact]
         public void UpdateQuality_BackstagePass_SellIn_10()
         {
-            Item i = new Item{Name = "Backstage passes to a TAFKAL80ETC concert", Quality = 10, SellIn = 10};
-            Program.UpdateQuality(i);
+            BPItem i = new BPItem{Name = "Backstage passes to a TAFKAL80ETC concert", Quality = 10, SellIn = 10};
+            i.UpdateQuality();
             Assert.Equal(12, i.Quality);
         }
         
         [Fact]
         public void UpdateQuality_BackstagePass_SellIn_5()
         {
-            Item i = new Item{Name = "Backstage passes to a TAFKAL80ETC concert", Quality = 10, SellIn = 5};
-            Program.UpdateQuality(i);
+            BPItem i = new BPItem{Name = "Backstage passes to a TAFKAL80ETC concert", Quality = 10, SellIn = 5};
+            i.UpdateQuality();
             Assert.Equal(13, i.Quality);
         }
 
@@ -79,8 +72,8 @@ namespace GildedRose.Tests
         [InlineData(-1)]
         public void UpdateQuality_LegendaryItem(int sellIn)
         {
-            Item i = new Item{Name = "Sulfuras, Hand of Ragnaros", Quality = 80, SellIn = sellIn};
-            Program.UpdateQuality(i);
+            LegendaryItem i = new LegendaryItem{Name = "Sulfuras, Hand of Ragnaros", SellIn = sellIn, Quality = 80};
+            i.UpdateQuality();
             Assert.Equal(80, i.Quality);
         }
 
@@ -91,7 +84,7 @@ namespace GildedRose.Tests
         [InlineData("Default item",5)]
         public void UpdateSellIn_arbitraryItems(string name, int quality)
         {
-            Item i = new Item{Name = name, Quality = quality, SellIn = 10};
+            var i = new Item{Name = name, Quality = quality, SellIn = 10};
             Program.UpdateSellIn(i);
             Assert.Equal(9, i.SellIn);
         }
@@ -99,19 +92,17 @@ namespace GildedRose.Tests
         [Fact]
         public void UpdateQuality_Conjured_SellInPositive()
         {
-            var i = new Item { Name = "Conjured Mana Cake", SellIn = 1, Quality = 6 };
-            Program.UpdateQuality(i);
+            var i = new ConjuredItem { Name = "Conjured Mana Cake", SellIn = 1, Quality = 6 };
+            i.UpdateQuality();
             Assert.Equal(4, i.Quality);
         }
-        
         [Fact]
         public void UpdateQuality_Conjured_SellINegative()
         {
-            var i = new Item { Name = "Conjured Mana Cake", SellIn = -1, Quality = 6 };
-            Program.UpdateQuality(i);
+            var i = new ConjuredItem { Name = "Conjured Mana Cake", SellIn = -1, Quality = 6 };
+            i.UpdateQuality();
             Assert.Equal(2, i.Quality);
         }
-
         [Theory]
         [InlineData("+5 Dexterity Vest", 10, 20)]
         [InlineData("Aged Brie", 2, 0)]
@@ -122,37 +113,36 @@ namespace GildedRose.Tests
         [InlineData("Backstage passes to a TAFKAL80ETC concert", 10, 49)]
         [InlineData("Backstage passes to a TAFKAL80ETC concert", 5, 49)]
         [InlineData("Conjured Mana Cake", 3, 6 )]
-        public void DefaultListTest(string name, int sellIn, int quality)
+        public void DefaultListTest(string name, int sellin, int quality)
         {
             var items = Program.defaultList();
             Assert.Contains(items, i =>
                 i.Name == name &&
-                i.SellIn == sellIn &&
+                i.SellIn == sellin &&
                 i.Quality == quality
             );
         }
 
         [Fact]
-        public void UpdateQuality_ItemQualityTooHigh()
-        {
-            Item i = new Item{Name = "Aged Brie", Quality = 54, SellIn = 10};
+        
+        public void ItemQualityLimitTest(){
+
+            var i = new Item{Name = "Restrained enraged goblin", Quality = -300, SellIn = 0};
+            var j = new Item{Name = "Special goblin restraining rope", Quality = 300, SellIn = 0};
             Program.UpdateQuality(i);
-            Assert.Equal(50, i.Quality);   
-        }
-        [Fact]
-        public void UpdateQuality_ItemQualityTooLow()
-        {
-            Item i = new Item{Name = "Normal Item", Quality = -40 , SellIn = 0};
-            Program.UpdateQuality(i);
-            Assert.Equal(0, i.Quality);   
-        }
-        [Fact]
-        public void Item_ToString()
-        {
-            Item i = new Item{Name = "Normal Item", Quality = -40 , SellIn = 0};
-            var expected = "Normal Item, 0, -40";
-            Assert.Equal(expected, i.ToString());   
+            Program.UpdateQuality(j);
+            Assert.Equal(0, i.Quality);
+            Assert.Equal(50, j.Quality);
         }
 
-    }
+        [Fact]
+        
+        public void ShowAllItemsRuns(){
+
+            Program.showAllItemValuesForAMonth(Program.defaultList());
+            
+            }
+            
+            }
 }
+
