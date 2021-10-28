@@ -9,9 +9,9 @@ public class LegendaryItem : Program.Item
 
         public int SellIn { get; set; }
 
-        public readonly int Quality = 80;
+        public  int Quality {get; set;}
 
-        public override void UpdateQuality(){}
+        public override void UpdateQuality(){ Quality = 80;}
         
     }
 }
